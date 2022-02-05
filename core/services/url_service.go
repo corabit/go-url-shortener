@@ -2,9 +2,9 @@ package services
 
 import (
 	"errors"
+	"github.com/koralbit/go-url-shortener/core/entities"
+	"github.com/koralbit/go-url-shortener/core/repository"
 	"github.com/lithammer/shortuuid/v3"
-	"go-url-shortener/core/entities"
-	"go-url-shortener/core/repository"
 	"gorm.io/gorm"
 )
 
@@ -34,7 +34,7 @@ func (s urlService) Create(url entities.Url) entities.Url {
 
 func (s urlService) GetUrl(id string) *entities.Url {
 	u, err := s.repo.FindById(id)
-	if errors.Is(err, gorm.ErrRecordNotFound){
+	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil
 	}
 	if err != nil {

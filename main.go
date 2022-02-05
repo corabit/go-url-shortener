@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-url-shortener/api/controller"
-	"go-url-shortener/core/repository"
-	"go-url-shortener/core/services"
-	"go-url-shortener/db"
+	"github.com/koralbit/go-url-shortener/api/controller"
+	"github.com/koralbit/go-url-shortener/core/repository"
+	"github.com/koralbit/go-url-shortener/core/services"
+	"github.com/koralbit/go-url-shortener/db"
 	"os"
 )
 

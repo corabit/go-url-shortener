@@ -1,4 +1,4 @@
-module go-url-shortener
+module github.com/koralbit/go-url-shortener
 
 go 1.17
 

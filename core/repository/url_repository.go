@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"go-url-shortener/core/entities"
+	"github.com/koralbit/go-url-shortener/core/entities"
 	"gorm.io/gorm"
 )
 

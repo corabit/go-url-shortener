@@ -3,9 +3,9 @@ package controller
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"go-url-shortener/api/models"
-	"go-url-shortener/core/entities"
-	"go-url-shortener/core/services"
+	"github.com/koralbit/go-url-shortener/api/models"
+	"github.com/koralbit/go-url-shortener/core/entities"
+	"github.com/koralbit/go-url-shortener/core/services"
 	"net/http"
 	"os"
 )
