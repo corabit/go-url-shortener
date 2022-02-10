@@ -2,18 +2,18 @@ package controller
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/koralbit/go-url-shortener/api/models"
 	"github.com/koralbit/go-url-shortener/core/entities"
 	"github.com/koralbit/go-url-shortener/core/services"
+	"github.com/labstack/echo/v4"
 	"net/http"
 	"os"
 )
 
 type UrlController interface {
-	Route(r *gin.Engine)
-	Create(c *gin.Context)
-	GetUrl(c *gin.Context)
+	Route(e *echo.Echo)
+	Create(c echo.Context) error
+	GetUrl(c echo.Context) error
 }
 
 type urlController struct {
@@ -21,21 +21,24 @@ type urlController struct {
 }
 
 func NewUrlController(service services.UrlService) UrlController {
+
 	return &urlController{
 		service: service,
 	}
 }
 
-func (c urlController) Route(r *gin.Engine) {
-	r.POST("/", c.Create)
-	r.GET("/:id", c.GetUrl)
+func (c urlController) Route(e *echo.Echo) {
+	e.POST("", c.Create)
+	e.GET("/:id", c.GetUrl)
 }
 
-func (c urlController) Create(ctx *gin.Context) {
+func (c urlController) Create(ctx echo.Context) error {
 	var request models.UrlCreateRequest
-	err := ctx.BindJSON(&request)
-	if err != nil {
-		panic(err.Error())
+	if err := ctx.Bind(&request); err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
+	if err := ctx.Validate(request); err != nil {
+		return err
 	}
 	url := entities.Url{
 		OriginUrl: request.Url,
@@ -46,18 +49,17 @@ func (c urlController) Create(ctx *gin.Context) {
 		Id:       curl.Id,
 		ShortUrl: fmt.Sprintf("%s/%s", host, curl.Id),
 	}
-	ctx.JSON(http.StatusCreated, response)
+	return ctx.JSON(http.StatusCreated, response)
 }
 
-func (c urlController) GetUrl(ctx *gin.Context) {
+func (c urlController) GetUrl(ctx echo.Context) error {
 	id := ctx.Param("id")
 	url := c.service.GetUrl(id)
 	host := os.Getenv("HOST")
 	if url == nil {
-		ctx.JSON(http.StatusNotFound, gin.H{
+		return ctx.JSON(http.StatusNotFound, echo.Map{
 			"error": fmt.Sprintf("Url not found for %s/%s", host, id),
 		})
-		return
 	}
-	ctx.Redirect(http.StatusMovedPermanently, url.OriginUrl)
+	return ctx.Redirect(http.StatusMovedPermanently, url.OriginUrl)
 }
