@@ -10,8 +10,8 @@ build: dependencies
 build-docker: 
 	docker build -t go-url-shortener .
 
-run-docker: build-docker
-	docker run --name go-url-shortener  -p 8080:8080 -d go-url-shortener
+run-docker: 
+	docker run --name url-shortener  -p 8080:8080 -d koralbit:url-shortener
 
 stop-docker:
 	docker container stop go-url-shortener || true

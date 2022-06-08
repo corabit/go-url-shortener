@@ -1,0 +1,40 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: url
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "a"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s 
+  api:
+    image: koralbit:url-shortener
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      HOST : localhost
+      PORT : 8080
+      DB_HOST : db
+      DB_PORT : 5432
+      DB_USER : postgres
+      DB_PASS : postgres
+      DB_NAME : url
+volumes:
+  postgresql:
+networks:
+  default:
+    external:
+      name: url-network
