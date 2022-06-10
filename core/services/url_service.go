@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+
 	"github.com/koralbit/go-url-shortener/core/entities"
 	"github.com/koralbit/go-url-shortener/core/repository"
 	"github.com/lithammer/shortuuid/v3"

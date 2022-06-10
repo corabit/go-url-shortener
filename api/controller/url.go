@@ -2,12 +2,13 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
+	"os"
+
 	"github.com/koralbit/go-url-shortener/api/models"
 	"github.com/koralbit/go-url-shortener/core/entities"
 	"github.com/koralbit/go-url-shortener/core/services"
 	"github.com/labstack/echo/v4"
-	"net/http"
-	"os"
 )
 
 type UrlController interface {
