@@ -11,7 +11,8 @@
             "mode": "auto",
             "program": "${workspaceFolder}",
             "envFile": "${workspaceFolder}/.env.local",
-            "preLaunchTask": "set-up-env"
+            "preLaunchTask": "set-up-env",
+            "postDebugTask": "set-down-env"
         }
     ]
 }

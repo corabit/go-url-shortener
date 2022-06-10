@@ -6,12 +6,23 @@
       {
         "label": "set-up-env",
         "type": "shell",
-        "command": "docker-compose -f ${workspaceFolder}/docker-compose.local.yml -p url-deps up -d",
+        "command": "docker-compose -f ${workspaceFolder}/docker-compose.debug.yml -p url-deps up -d",
         "group": "none",
         "presentation": {
-          "reveal": "always",
+          "reveal": "silent",
           "panel": "new"
         }
-      }
+      },
+      {
+        "label": "set-down-env",
+        "type": "shell",
+        "command": "docker-compose -p url-deps down",
+        "group": "none",
+        "presentation": {
+          "reveal": "silent",
+          "panel": "new"
+        }
+      },
+      
     ]
   }

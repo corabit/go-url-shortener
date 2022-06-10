@@ -1,25 +1,11 @@
-dependencies:
-	go mod download
-
-run: dependencies
-	go run main.go
-
-build: dependencies
-	go build main.go
+run: build-docker
+	docker-compose -p url-shortener up -d
 
 build-docker: 
-	docker build -t go-url-shortener .
+	docker build -t koralbit/go-url-shortener .
 
-run-docker: 
-	docker run --name url-shortener  -p 8080:8080 -d koralbit:url-shortener
+stop:
+	docker-compose -p url-shortener stop
 
-stop-docker:
-	docker container stop go-url-shortener || true
-
-remove-docker-container:
-	docker container rm go-url-shortener || true
-
-remove-docker-image:
-	docker image rm go-url-shortener || true
-
-clean: stop-docker remove-docker-container remove-docker-image
+clean:
+	docker-compose -p url-shortener down
